@@ -20,5 +20,25 @@ ISAACLAB_ASSETS_METADATA = toml.load(os.path.join(ISAACLAB_ASSETS_EXT_DIR, "conf
 # Configure the module-level variables
 __version__ = ISAACLAB_ASSETS_METADATA["package"]["version"]
 
-from .robots import *
-from .sensors import *
+
+# --
+# Lazy import the robots and sensors
+# --
+
+from typing import TYPE_CHECKING
+from lazy_imports import LazyModule as _LazyModule, as_package
+
+_mod = _LazyModule(
+    *as_package(__file__),
+    "from .robots import *",
+    "from .sensors import *",
+    name=__name__,
+)
+
+if TYPE_CHECKING:
+    from .robots import *
+    from .sensors import *
+else:
+    __getattr__ = _mod.__getattr__
+    __dir__ = _mod.__dir__
+    __all__ = _mod.__all__

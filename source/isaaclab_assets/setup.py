@@ -26,6 +26,7 @@ setup(
     keywords=EXTENSION_TOML_DATA["package"]["keywords"],
     include_package_data=True,
     python_requires=">=3.10",
+    install_requires=["lazy_imports"],
     packages=["isaaclab_assets"],
     classifiers=[
         "Natural Language :: English",
